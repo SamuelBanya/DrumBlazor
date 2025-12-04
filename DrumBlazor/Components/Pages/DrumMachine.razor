@@ -1,0 +1,87 @@
+@page "/drum-machine" 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+   <title>Bootstrap Example</title>
+  </head>
+  <body>
+    <div class="text-center">
+      <h1>Drum Machine</h1>
+    </div>
+    <div>
+      <h2>Use the drum machine below to play some drum samples!</h2>
+    </div>
+    <div class="container bg-secondary">
+      <div class="row mb-5"></div>
+      <div class="row">
+        <div class="text-center text-dark bg-dark">___________</div>
+      </div>
+      <div class="row">
+        <div class="text-center text-success bg-dark">
+            <h1 style="font-family: 'Press Start 2P', cursive; font-size: 20px;">NOW PLAYING</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="text-center text-dark bg-dark">___________</div>
+      </div>
+      <div class="row mt-3 mb-5">
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-success" style='font-family: "Play", sans-serif; font-weight: 400;font-style: normal;'><h2>PLAY</h2></button>
+          <button class="btn btn-danger" style='font-family: "Play", sans-serif; font-weight: 400;font-style: normal;'><h2>PAUSE</h2></button>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col d-flex justify-content-between">
+          <button class="btn btn-danger" @onclick="EngageCymbal1">🔔 1</button>
+          <button class="btn btn-danger">🔔 2</button>
+          <button class="btn btn-danger">🔔 3</button>
+          <button class="btn btn-danger">🔔 4</button>
+          <button class="btn btn-warning">🥁 1</button>
+          <button class="btn btn-warning">🥁 2</button>
+          <button class="btn btn-warning">🥁 3</button>
+          <button class="btn btn-warning">🥁 4</button>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col d-flex justify-content-between">
+          <button class="btn btn-primary">🛢️ 1</button>
+          <button class="btn btn-primary">🛢️ 2</button>
+          <button class="btn btn-primary">🛢️ 3</button>
+          <button class="btn btn-primary">🛢️ 4</button>
+          <button class="btn btn-info">👏 1</button>
+          <button class="btn btn-info">👏 2</button>
+          <button class="btn btn-info">👏 3</button>
+          <button class="btn btn-info">👏 4</button>
+        </div>
+      </div>
+      <div class="row mt-5"></div>
+    </div>
+  </body>
+</html>
+
+@code {
+    private async Task EngageCymbal1() 
+    {
+        Console.WriteLine("Cymbal 1 Engaged");
+        // TODO:
+        // Make the cymbal play on the first beat
+    }
+
+    // From examples I found online:
+    // private ElementReference drumAudio; 
+
+    // private async Task PlayAudio(string fileName) { 
+        // var audioPath = $"audio/{fileName}"; await JS.InvokeVoidAsync("playAudioFile", drumAudio, audioPath); 
+    // } 
+
+    // private async Task PauseAudio() { 
+        // await JS.InvokeVoidAsync("pauseAudioFile", drumAudio); 
+    // }
+}

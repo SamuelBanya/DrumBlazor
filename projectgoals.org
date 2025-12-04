@@ -1,0 +1,40 @@
+* Project: Mini MIDI Synth
+Ideas:
+- Have a drum machine section where it plays drum machine samples
+- Play triangle/pulse/sine waves
+- Play actual MIDI somehow
+- Simple UI with 3–4 note buttons
+** Week 1
+Tasks:
+1. Work on a related Figma design
+- Most likely this will require a simple button layout --> Will start with a simple drum machine design first
+- https://www.figma.com/design/Qkwr6QQSNTfhR24oD7ifAm/MidiBlazor-Figma?node-id=0-1&p=f&t=6nPrIK9vcMKU5lyP-0
+
+2. Research NAudio or DryWetMIDI on macOS/.NET Core:
+- 'NAudio' seems to be a solid option for using the .NET 'webapp' project.
+- https://github.com/naudio/NAudio?tab=readme-ov-file
+- Just as an update, this really would only help play audio on the C# backend side, but not in browser, so we are eliminating this option
+
+3. Research whether or not it might be simpler to just play the audio in browser as well somehow:
+- One example I found where they literally created a midi keyboard in browser in a Blazor app:
+- https://kristofferstrube.github.io/Blazor.WebAudio/Keyboard
+- https://github.com/KristofferStrube/Blazor.WebAudio/blob/main/samples/KristofferStrube.Blazor.WebAudio.WasmExample/Pages/Keyboard.razor
+- Only problem with this approach is that it is absolutely overkill for what I need since I just wanna play audio somehow
+
+** Week 2–3
+Potential Features To Implement:
+1. Get a simple button that when clicked results in a sampled drum machine sound's playback
+2. Add a scrolling 'stock ticker' text section in the display just like the old school 90's drum machines, possible example to reference for animation ideas:
+- https://codepen.io/KenanYusuf/pen/eRprzN
+
+** Week 4
+- Build standalone executable
+- Write usage instructions
+
+* Related Terminal Commands
+<2025-12-04 Thu 13:29>: 
+This is the related terminal command I used to create the app initially for reference:
+
+#+begin_src bash
+sam@Tinas-MacBook-Air ~/hub/MidiBlazor (main) $ dotnet new blazor -o DrumBlazor
+#+end_src
