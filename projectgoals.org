@@ -24,6 +24,10 @@ Tasks:
 ** Week 2–3
 Potential Features To Implement:
 1. Get a simple button that when clicked results in a sampled drum machine sound's playback
+- Great resources I found for this:
+- https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement
+- https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/?view=aspnetcore-8.0
+- https://github.com/KristofferStrube/Blazor.WebAudio/blob/main/samples/KristofferStrube.Blazor.WebAudio.WasmExample/Pages/AudioPlayer.razor
 2. Add a scrolling 'stock ticker' text section in the display just like the old school 90's drum machines, possible example to reference for animation ideas:
 - https://codepen.io/KenanYusuf/pen/eRprzN
 
