@@ -1,0 +1,5 @@
+.sequence-on {
+    -webkit-box-shadow:0px 0px 67px 27px rgba(45,255,196,0.9);
+    -moz-box-shadow: 0px 0px 67px 27px rgba(45,255,196,0.9);
+    box-shadow: 0px 0px 67px 27px rgba(45,255,196,0.9);
+}
