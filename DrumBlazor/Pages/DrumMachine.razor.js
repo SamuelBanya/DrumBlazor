@@ -1,31 +1,63 @@
 let playTimer = null;
-let bpmSpeed = 60;
 
-export function alertUser() {
-    alert('The button was selected!');
+// Set the default interval to 500ms which is 120 BPM:
+let intervalMs = 500;
+
+let currentBeat = 0;
+
+const totalBeats = 4;
+
+const audioCache = {
+  Hat: new Audio("audio/cl_hihat.wav"),
+  Snare: new Audio("audio/snare.wav"),
+  Kick: new Audio("audio/kick1.wav"),
+  Clap: new Audio("audio/handclap.wav")
 }
 
-export function playSound(button, audioFilePath) {
-  const audioElement = new Audio(audioFilePath);
-  audioElement.play();
+let currentDrumMachineState = "NOW PLAYING";
 
-  const isOn = button.classList.contains("sequence-on");
-
-  if (isOn) {
-    button.classList.remove("active", "bg-success", "sequence-on");
-  } else {
-    button.classList.add("active", "bg-success", "sequence-on");
+function bind(id, event, handler) {
+  const el = document.getElementById(id);
+  if (!el) {
+    console.warn(`Missing element: ${id}`);
   }
+
+  el.addEventListener(event, handler);
 }
 
-export function sequencePlaySound(button, audioFilePath) {
-  const audioElement = new Audio(audioFilePath);
-  audioElement.play();
+export function playSound(button, soundKey) {
+  const audio = audioCache[soundKey];
+
+  // Safety guard for audio:
+  if (!audio) return;
+
+  audio.currentTime = 0;
+  audio.play();
+
+  button.classList.toggle("sequence-on");
+  button.classList.toggle("active");
+  button.classList.toggle("bg-success");
 }
 
-export function playDrumMachine(button) {
-  let currentBeat = 0;
-  const totalBeats = 4;
+export function sequencePlaySound(button, soundKey) {
+  const audio = audioCache[soundKey];
+  audio.currentTime = 0;
+  audio.play();
+}
+
+export function playDrumMachine() {
+  if (playTimer !== null) {
+    return;
+  }
+
+  // Change the 'currentDrumMachineState' text:
+  currentDrumMachineState = "NOW PLAYING";
+
+  let drumMachineState = document.getElementById("DrumMachineState");
+
+  if (drumMachineState) {
+    drumMachineState.innerText = currentDrumMachineState;
+  }
   
   playTimer = setInterval(function() {
     // This allows it to reset to 1 after '4' is reached:
@@ -54,128 +86,114 @@ export function playDrumMachine(button) {
     if (currentBeat == 1) {
       for (var i = 0; i < beat1InstrumentsArray.length; i++) {
         if (beat1InstrumentsArray[i].id.includes("Hat")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "audio/cl_hihat.wav");
+          sequencePlaySound(beat1InstrumentsArray[i], "Hat");
         } else if (beat1InstrumentsArray[i].id.includes("Snare")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "audio/snare.wav");
+          sequencePlaySound(beat1InstrumentsArray[i], "Snare");
         } else if (beat1InstrumentsArray[i].id.includes("Kick")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "audio/kick1.wav");
+          sequencePlaySound(beat1InstrumentsArray[i], "Kick");
         } else if (beat1InstrumentsArray[i].id.includes("Clap")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "audio/handclap.wav");
+          sequencePlaySound(beat1InstrumentsArray[i], "Clap");
         }
       }
     } else if (currentBeat == 2) {
         for (var i = 0; i < beat2InstrumentsArray.length; i++) {
           if (beat2InstrumentsArray[i].id.includes("Hat")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "audio/cl_hihat.wav");
+            sequencePlaySound(beat2InstrumentsArray[i], "Hat");
           } else if (beat2InstrumentsArray[i].id.includes("Snare")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "audio/snare.wav");
+            sequencePlaySound(beat2InstrumentsArray[i], "Snare");
           } else if (beat2InstrumentsArray[i].id.includes("Kick")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "audio/kick1.wav");
+            sequencePlaySound(beat2InstrumentsArray[i], "Kick");
           } else if (beat2InstrumentsArray[i].id.includes("Clap")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "audio/handclap.wav");
+            sequencePlaySound(beat2InstrumentsArray[i], "Clap");
           }
         }
       } else if (currentBeat == 3) {
         for (var i = 0; i < beat3InstrumentsArray.length; i++) {
           if (beat3InstrumentsArray[i].id.includes("Hat")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "audio/cl_hihat.wav");
+            sequencePlaySound(beat3InstrumentsArray[i], "Hat");
           } else if (beat3InstrumentsArray[i].id.includes("Snare")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "audio/snare.wav");
+            sequencePlaySound(beat3InstrumentsArray[i], "Snare");
           } else if (beat3InstrumentsArray[i].id.includes("Kick")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "audio/kick1.wav");
+            sequencePlaySound(beat3InstrumentsArray[i], "Kick");
           } else if (beat3InstrumentsArray[i].id.includes("Clap")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "audio/handclap.wav");
+            sequencePlaySound(beat3InstrumentsArray[i], "Clap");
           }
         }
       } else if (currentBeat == 4) {
         for (var i = 0; i < beat4InstrumentsArray.length; i++) {
           if (beat4InstrumentsArray[i].id.includes("Hat")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "audio/cl_hihat.wav");
+            sequencePlaySound(beat4InstrumentsArray[i], "Hat");
           } else if (beat4InstrumentsArray[i].id.includes("Snare")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "audio/snare.wav");
+            sequencePlaySound(beat4InstrumentsArray[i], "Snare");
           } else if (beat4InstrumentsArray[i].id.includes("Kick")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "audio/kick1.wav");
+            sequencePlaySound(beat4InstrumentsArray[i], "Kick");
           } else if (beat4InstrumentsArray[i].id.includes("Clap")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "audio/handclap.wav");
+            sequencePlaySound(beat4InstrumentsArray[i], "Clap");
           }
         }
       }
-  }, 500)
+  }, intervalMs)
 }
 
-export function pauseDrumMachine(button) {
+export function pauseDrumMachine() {
   if (playTimer !== null) {
     clearInterval(playTimer);
     playTimer = null;
   }
 }
 
-// TODO:
-// Make BPM range button actually work:
-export function changeBpm(bpmButton) {
-  alert("bpmButton.value: " + bpmButton.value);
-  let bpmValue = Number(bpmButton.value);
-  let intervalMs = 6000 / bpmValue;
-}
+export function resetDrumMachine() {
+  // Stop all sounds:
+  pauseDrumMachine();
+  currentBeat = 0;
   
+  const sequenceOnInstruments = document.querySelectorAll(".sequence-on");
+
+  // Remove 'sequence-on' class from all drum buttons:
+  sequenceOnInstruments.forEach(el => 
+    el.classList.remove("sequence-on", "active", "bg-success"));
+
+  Object.values(audioCache).forEach(audio => {
+    audio.pause();
+    audio.currentTime = 0;
+  })
+}
+
+export function changeBpm(bpmButton) {
+  let bpmValue = Math.max(1, Number(bpmButton.value));
+  intervalMs = 60000 / bpmValue;
+
+  if (playTimer !== null) {
+    pauseDrumMachine();
+    playDrumMachine();
+  }
+}
+
 export function addHandlers() {
-  const btn = document.getElementById("btn");
-  btn.addEventListener("click", alertUser);
+  bind("PlayButton", "click", playDrumMachine);
+  bind("PauseButton", "click", pauseDrumMachine);
+  bind("ResetButton", "click", resetDrumMachine);
 
-  const playButton = document.getElementById("PlayButton");
-  playButton.addEventListener("click", () => playDrumMachine(playButton));
+  bind("Hat1", "click", () => playSound(document.getElementById("Hat1"), "Hat"));
+  bind("Hat2", "click", () => playSound(document.getElementById("Hat2"), "Hat"));
+  bind("Hat3", "click", () => playSound(document.getElementById("Hat3"), "Hat"));
+  bind("Hat4", "click", () => playSound(document.getElementById("Hat4"), "Hat"));
 
-  const pauseButton = document.getElementById("PauseButton");
-  pauseButton.addEventListener("click", () => pauseDrumMachine(playButton));
+  bind("Snare1", "click", () => playSound(document.getElementById("Snare1"), "Snare"));
+  bind("Snare2", "click", () => playSound(document.getElementById("Snare2"), "Snare"));
+  bind("Snare3", "click", () => playSound(document.getElementById("Snare3"), "Snare"));
+  bind("Snare4", "click", () => playSound(document.getElementById("Snare4"), "Snare"));
 
-  const hat1 = document.getElementById("Hat1");
-  hat1.addEventListener("click", () => playSound(hat1, "audio/cl_hihat.wav"));
+  bind("Kick1", "click", () => playSound(document.getElementById("Kick1"), "Kick"));
+  bind("Kick2", "click", () => playSound(document.getElementById("Kick2"), "Kick"));
+  bind("Kick3", "click", () => playSound(document.getElementById("Kick3"), "Kick"));
+  bind("Kick4", "click", () => playSound(document.getElementById("Kick4"), "Kick"));
 
-  const hat2 = document.getElementById("Hat2");
-  hat2.addEventListener("click", () => playSound(hat2, "audio/cl_hihat.wav"));
-
-  const hat3 = document.getElementById("Hat3");
-  hat3.addEventListener("click", () => playSound(hat3, "audio/cl_hihat.wav"));
-
-  const hat4 = document.getElementById("Hat4");
-  hat4.addEventListener("click", () => playSound(hat4, "audio/cl_hihat.wav"));
-
-  const snare1 = document.getElementById("Snare1");
-  snare1.addEventListener("click", () => playSound(snare1, "audio/snare.wav"));
-
-  const snare2 = document.getElementById("Snare2");
-  snare2.addEventListener("click", () => playSound(snare2, "audio/snare.wav"));
-
-  const snare3 = document.getElementById("Snare3");
-  snare3.addEventListener("click", () => playSound(snare3, "audio/snare.wav"));
-
-  const snare4 = document.getElementById("Snare4");
-  snare4.addEventListener("click", () => playSound(snare4, "audio/snare.wav"));
-
-  const kick1 = document.getElementById("Kick1");
-  kick1.addEventListener("click", () => playSound(kick1, "audio/kick1.wav"));
-
-  const kick2 = document.getElementById("Kick2");
-  kick2.addEventListener("click", () => playSound(kick2, "audio/kick1.wav"));
-
-  const kick3 = document.getElementById("Kick3");
-  kick3.addEventListener("click", () => playSound(kick3, "audio/kick1.wav"));
-
-  const kick4 = document.getElementById("Kick4");
-  kick4.addEventListener("click", () => playSound(kick4, "audio/kick1.wav"));
-
-  const clap1 = document.getElementById("Clap1");
-  clap1.addEventListener("click", () => playSound(clap1, "audio/handclap.wav"));
-
-  const clap2 = document.getElementById("Clap2");
-  clap2.addEventListener("click", () => playSound(clap2, "audio/handclap.wav"));
-
-  const clap3 = document.getElementById("Clap3");
-  clap3.addEventListener("click", () => playSound(clap3, "audio/handclap.wav"));
-
-  const clap4 = document.getElementById("Clap4");
-  clap4.addEventListener("click", () => playSound(clap4, "audio/handclap.wav"));
+  bind("Clap1", "click", () => playSound(document.getElementById("Clap1"), "Clap"));
+  bind("Clap2", "click", () => playSound(document.getElementById("Clap2"), "Clap"));
+  bind("Clap3", "click", () => playSound(document.getElementById("Clap3"), "Clap"));
+  bind("Clap4", "click", () => playSound(document.getElementById("Clap4"), "Clap"));
 
   const bpmButton = document.getElementById("bpmRange");
-  bpmButton.addEventListener("click", () => changeBPM(bpmButton));
+  bpmButton.addEventListener("input", () => changeBpm(bpmButton));
 }
