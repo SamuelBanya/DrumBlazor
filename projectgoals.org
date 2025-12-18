@@ -30,6 +30,7 @@ Potential Features To Implement:
 - https://github.com/KristofferStrube/Blazor.WebAudio/blob/main/samples/KristofferStrube.Blazor.WebAudio.WasmExample/Pages/AudioPlayer.razor
 2. Add a scrolling 'stock ticker' text section in the display just like the old school 90's drum machines, possible example to reference for animation ideas:
 - https://codepen.io/KenanYusuf/pen/eRprzN
+- https://jsfiddle.net/7qy1ohm8/
 
 ** Week 4
 - Build standalone executable

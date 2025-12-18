@@ -14,7 +14,7 @@ const audioCache = {
   Clap: new Audio("audio/handclap.wav")
 }
 
-let currentDrumMachineState = "NOW PLAYING";
+let currentDrumMachineState = "NOW PAUSED";
 
 function bind(id, event, handler) {
   const el = document.getElementById(id);
@@ -45,6 +45,14 @@ export function sequencePlaySound(button, soundKey) {
   audio.play();
 }
 
+export function changeDrumStateText(currentDrumMachineState) {
+  let drumMachineStateSpan = document.querySelector("#DrumMachineState span");
+
+  if (drumMachineStateSpan) {
+    drumMachineStateSpan.innerText = currentDrumMachineState;
+  }
+}
+
 export function playDrumMachine() {
   if (playTimer !== null) {
     return;
@@ -52,86 +60,25 @@ export function playDrumMachine() {
 
   // Change the 'currentDrumMachineState' text:
   currentDrumMachineState = "NOW PLAYING";
+  changeDrumStateText(currentDrumMachineState);
 
-  let drumMachineState = document.getElementById("DrumMachineState");
-
-  if (drumMachineState) {
-    drumMachineState.innerText = currentDrumMachineState;
-  }
+  const beats = ["1", "2", "3", "4"];
+  const instruments = ["Hat", "Snare", "Kick", "Clap"];
   
   playTimer = setInterval(function() {
     // This allows it to reset to 1 after '4' is reached:
     currentBeat = (currentBeat % totalBeats) + 1;
 
-    let sequenceOnInstruments = document.querySelectorAll(".sequence-on");
+    let sequenceOnInstruments = Array.from(document.querySelectorAll(".sequence-on"));
 
-    let beat1InstrumentsArray = [];
-    let beat2InstrumentsArray = [];
-    let beat3InstrumentsArray = [];
-    let beat4InstrumentsArray = [];
+    const currentBeatButtons = sequenceOnInstruments.filter(el => el.id.endsWith(String(currentBeat)));
 
-    for (var i = 0; i < sequenceOnInstruments.length; i++) {
-      let el = sequenceOnInstruments[i];
-      if (el.id.includes("1")) {
-        beat1InstrumentsArray.push(sequenceOnInstruments[i]);
-      } else if (el.id.includes("2")) {
-        beat2InstrumentsArray.push(sequenceOnInstruments[i]);
-      } else if (el.id.includes("3")) {
-        beat3InstrumentsArray.push(sequenceOnInstruments[i]);
-      } else if (el.id.includes("4")) {
-        beat4InstrumentsArray.push(sequenceOnInstruments[i]);
+    currentBeatButtons.forEach(button => {
+      const instrument = instruments.find(instrument => button.id.includes(instrument));
+      if (instrument) {
+        sequencePlaySound(button, instrument);
       }
-    }
-
-    if (currentBeat == 1) {
-      for (var i = 0; i < beat1InstrumentsArray.length; i++) {
-        if (beat1InstrumentsArray[i].id.includes("Hat")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "Hat");
-        } else if (beat1InstrumentsArray[i].id.includes("Snare")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "Snare");
-        } else if (beat1InstrumentsArray[i].id.includes("Kick")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "Kick");
-        } else if (beat1InstrumentsArray[i].id.includes("Clap")) {
-          sequencePlaySound(beat1InstrumentsArray[i], "Clap");
-        }
-      }
-    } else if (currentBeat == 2) {
-        for (var i = 0; i < beat2InstrumentsArray.length; i++) {
-          if (beat2InstrumentsArray[i].id.includes("Hat")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "Hat");
-          } else if (beat2InstrumentsArray[i].id.includes("Snare")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "Snare");
-          } else if (beat2InstrumentsArray[i].id.includes("Kick")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "Kick");
-          } else if (beat2InstrumentsArray[i].id.includes("Clap")) {
-            sequencePlaySound(beat2InstrumentsArray[i], "Clap");
-          }
-        }
-      } else if (currentBeat == 3) {
-        for (var i = 0; i < beat3InstrumentsArray.length; i++) {
-          if (beat3InstrumentsArray[i].id.includes("Hat")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "Hat");
-          } else if (beat3InstrumentsArray[i].id.includes("Snare")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "Snare");
-          } else if (beat3InstrumentsArray[i].id.includes("Kick")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "Kick");
-          } else if (beat3InstrumentsArray[i].id.includes("Clap")) {
-            sequencePlaySound(beat3InstrumentsArray[i], "Clap");
-          }
-        }
-      } else if (currentBeat == 4) {
-        for (var i = 0; i < beat4InstrumentsArray.length; i++) {
-          if (beat4InstrumentsArray[i].id.includes("Hat")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "Hat");
-          } else if (beat4InstrumentsArray[i].id.includes("Snare")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "Snare");
-          } else if (beat4InstrumentsArray[i].id.includes("Kick")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "Kick");
-          } else if (beat4InstrumentsArray[i].id.includes("Clap")) {
-            sequencePlaySound(beat4InstrumentsArray[i], "Clap");
-          }
-        }
-      }
+    })
   }, intervalMs)
 }
 
@@ -140,6 +87,10 @@ export function pauseDrumMachine() {
     clearInterval(playTimer);
     playTimer = null;
   }
+
+  // Change the 'currentDrumMachineState' text:
+  currentDrumMachineState = "NOW PAUSED";
+  changeDrumStateText(currentDrumMachineState);
 }
 
 export function resetDrumMachine() {
@@ -174,25 +125,14 @@ export function addHandlers() {
   bind("PauseButton", "click", pauseDrumMachine);
   bind("ResetButton", "click", resetDrumMachine);
 
-  bind("Hat1", "click", () => playSound(document.getElementById("Hat1"), "Hat"));
-  bind("Hat2", "click", () => playSound(document.getElementById("Hat2"), "Hat"));
-  bind("Hat3", "click", () => playSound(document.getElementById("Hat3"), "Hat"));
-  bind("Hat4", "click", () => playSound(document.getElementById("Hat4"), "Hat"));
+  const instruments = ["Hat", "Snare", "Kick", "Clap"];
+  const beats = ["1", "2", "3", "4"];
 
-  bind("Snare1", "click", () => playSound(document.getElementById("Snare1"), "Snare"));
-  bind("Snare2", "click", () => playSound(document.getElementById("Snare2"), "Snare"));
-  bind("Snare3", "click", () => playSound(document.getElementById("Snare3"), "Snare"));
-  bind("Snare4", "click", () => playSound(document.getElementById("Snare4"), "Snare"));
-
-  bind("Kick1", "click", () => playSound(document.getElementById("Kick1"), "Kick"));
-  bind("Kick2", "click", () => playSound(document.getElementById("Kick2"), "Kick"));
-  bind("Kick3", "click", () => playSound(document.getElementById("Kick3"), "Kick"));
-  bind("Kick4", "click", () => playSound(document.getElementById("Kick4"), "Kick"));
-
-  bind("Clap1", "click", () => playSound(document.getElementById("Clap1"), "Clap"));
-  bind("Clap2", "click", () => playSound(document.getElementById("Clap2"), "Clap"));
-  bind("Clap3", "click", () => playSound(document.getElementById("Clap3"), "Clap"));
-  bind("Clap4", "click", () => playSound(document.getElementById("Clap4"), "Clap"));
+  instruments.forEach(instrument => {
+    beats.forEach(beat => {
+      bind(`${instrument}${beat}`, 'click', () => playSound(document.getElementById(`${instrument}${beat}`), instrument));
+    });
+  });
 
   const bpmButton = document.getElementById("bpmRange");
   bpmButton.addEventListener("input", () => changeBpm(bpmButton));
