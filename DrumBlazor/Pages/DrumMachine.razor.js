@@ -100,7 +100,7 @@ export function playDrumMachine(button) {
           }
         }
       }
-  }, 1000)
+  }, 500)
 }
 
 export function pauseDrumMachine(button) {
@@ -112,8 +112,10 @@ export function pauseDrumMachine(button) {
 
 // TODO:
 // Make BPM range button actually work:
-export function changeBpm(bpmRangeButton) {
-  alert("bpmRangeButton.value: " + bpmRangeButton.value);
+export function changeBpm(bpmButton) {
+  alert("bpmButton.value: " + bpmButton.value);
+  let bpmValue = Number(bpmButton.value);
+  let intervalMs = 6000 / bpmValue;
 }
   
 export function addHandlers() {
@@ -174,6 +176,6 @@ export function addHandlers() {
   const clap4 = document.getElementById("Clap4");
   clap4.addEventListener("click", () => playSound(clap4, "audio/handclap.wav"));
 
-  const bpmRangeButton = document.getElementById("bpmRange");
-  bpmRangeButton.addEventListener("click", () => changeBPM(bpmRangeButton));
+  const bpmButton = document.getElementById("bpmRange");
+  bpmButton.addEventListener("click", () => changeBPM(bpmButton));
 }
